@@ -6,18 +6,18 @@ function fetchCocktail() {
     const resultDiv = document.getElementById('result');
 
     if (!cocktailName) {
-        alert("¡No olvides escribir el nombre de un cóctel!");
+        alert("¡Escribe el nombre de un cóctel!");
         return;
     }
     
-    // La URL de la API utiliza el nombre del cóctel ingresado por el usuario
+    //esto es para buscar el coctel en la API
     const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktailName}`;
     resultDiv.innerHTML = '<h2>Cargando...</h2>';
 
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                // Esta línea maneja errores HTTP 4xx/5xx, no el fallo de red (que lo maneja el SW).
+                //aqui manejamos errores de red o respuestas no exitosas
                 throw new Error('Respuesta del servidor no válida');
             }
             return response.json();
@@ -30,7 +30,7 @@ function fetchCocktail() {
                 return;
             }
             
-            // Renderiza el resultado, incluyendo el fallback JSON si es el que se recibió
+            //mostrar los datos del coctel
             resultDiv.innerHTML = `
                 <h2>${cocktail.strDrink}</h2>
                 <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}" width="200" height="300">
@@ -40,7 +40,7 @@ function fetchCocktail() {
             `;
         })
         .catch(error => {
-            // Este catch solo debe atrapar errores del lado del cliente (ej. fallo en el JSON parseo)
+            //aqui manejamos errores de fetch o parseo
             resultDiv.innerHTML = `<p style="color: red;">Error al procesar la respuesta: ${error.message}</p>`;
         });
 }

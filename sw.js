@@ -11,7 +11,7 @@ const appShellAssets = [
 const OFFLINE_COCKTAIL_JSON = {
     drinks: [{
         idDrink: "00000",
-        strDrink: "🚫 ¡Sin Conexión ni Datos Frescos!",
+        strDrink: "No hay conexion ni datos",
         strTags: "FALLBACK",
         strCategory: "Desconectado",
         strInstructions: "No pudimos obtener resultados. Este es un resultado genérico. Intenta conectarte de nuevo.",
@@ -25,14 +25,14 @@ self.addEventListener('install', event => {
     console.log('Instalando y precacheando el App Shell...');
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
-            // 1. Precacheo: Guardamos el App Shell
+            //aqui es donde se hace el precacheo
             return cache.addAll(appShellAssets);
         })
             .then(() => self.skipWaiting()) //se fuerza, si no es cuando esta cosa quiera, si no cuando yo -.-
     );
 });
 self.addEventListener('activate', event => {
-    console.log('[SW] Service Worker Activado.');
+    console.log('Service Worker Activado.');
     event.waitUntil(self.clients.claim());
 });
 
@@ -54,7 +54,7 @@ self.addEventListener('fetch', event => {
         );
         return;
     }
-    // ESTRATEGIA 2 NETWORKFIRST con FALLBACK de JSON (para la API)
+    // ESTRATEGIA NETWORK FIRST CON FALLBACK A JSON GENÉRICO PARA LA API DE CÓCTELES
     if (requestUrl.host === 'www.thecocktaildb.com' && requestUrl.pathname.includes('/search.php')) {
         console.log('[SW] API NETWORK-FIRST con Fallback a JSON Genérico.');
         event.respondWith(
