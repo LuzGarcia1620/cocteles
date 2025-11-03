@@ -1,7 +1,7 @@
 {
     "name": "Mi PWA",
     "short_name": "CoctelPWA",
-    "start_url": "/",
+"start_url": "/cocteles/",
     "display": "standalone",
     "background_color": "#1A202C",
     "theme_color": "#4A90E2",
